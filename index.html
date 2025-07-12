@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Calculate your Body Mass Index (BMI) easily. For users worldwide." />
+  <title>BMI Calculator</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      text-align: center;
+    }
+    input, select {
+      padding: 10px;
+      margin: 5px;
+      width: 150px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+    }
+    .result {
+      font-size: 24px;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🌍 BMI Calculator</h1>
+  <p>Enter your weight and height to calculate your BMI.</p>
+
+  <input type="number" id="weight" placeholder="Weight" />
+  <select id="weightUnit">
+    <option value="kg">kg</option>
+    <option value="lb">lb</option>
+  </select>
+  <br />
+  <input type="number" id="height" placeholder="Height" />
+  <select id="heightUnit">
+    <option value="cm">cm</option>
+    <option value="inch">inch</option>
+  </select>
+  <br />
+  <button onclick="calculateBMI()">Calculate</button>
+
+  <div class="result" id="bmiResult">Your BMI will appear here</div>
+
+  <script>
+    function calculateBMI() {
+      const weight = parseFloat(document.getElementById("weight").value);
+      const weightUnit = document.getElementById("weightUnit").value;
+      const height = parseFloat(document.getElementById("height").value);
+      const heightUnit = document.getElementById("heightUnit").value;
+
+      if (isNaN(weight) || isNaN(height) || weight <= 0 || height <= 0) {
+        document.getElementById("bmiResult").innerText = "Please enter valid values.";
+        return;
+      }
+
+      let w = weight;
+      let h = height;
+
+      if (weightUnit === "lb") w = weight * 0.453592;
+      if (heightUnit === "inch") h = height * 2.54;
+
+      const bmi = w / ((h / 100) ** 2);
+      const resultText = `Your BMI is ${bmi.toFixed(1)} (${bmiCategory(bmi)})`;
+      document.getElementById("bmiResult").innerText = resultText;
+    }
+
+    function bmiCategory(bmi) {
+      if (bmi < 18.5) return "Underweight";
+      if (bmi < 24.9) return "Normal weight";
+      if (bmi < 29.9) return "Overweight";
+      return "Obesity";
+    }
+  </script>
+
+</body>
+</html>
